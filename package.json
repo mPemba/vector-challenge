@@ -4,9 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node index.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "color": "^4.2.3",
+    "selenium-webdriver": "^4.9.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.39.0"
+  }
 }
