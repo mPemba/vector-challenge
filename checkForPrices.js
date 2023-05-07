@@ -1,7 +1,7 @@
 const { By, until } = require("selenium-webdriver");
 const fs = require("fs");
 const { COLORS } = require("./util");
-
+const { generateHtmlReport } = require("./generateHtmlReport");
 const resultsDir = "test_results";
 
 module.exports = {
@@ -65,10 +65,9 @@ module.exports = {
           10000
         );
 
-        /**
-         * Search through rows for a header that matches "USPS Retail Ground"
-         * and store the Normal delivery time Retail prices
-         */
+
+        // Search through rows for a header that matches "USPS Retail Ground"
+        // and store the Normal delivery time Retail prices
         let list = await driver.findElement(By.css("#mail-services-sm-lg"));
         let rows = await list.findElements(By.css(".row"));
 
@@ -126,9 +125,20 @@ module.exports = {
         );
       });
 
+      // Generate HTML report
+      const htmlReport = await generateHtmlReport(results, browserName, options);
+
+      // Write HTML report to file
       fs.writeFileSync(
-        `./${resultsDir}/${date}/results.json`,
-        JSON.stringify(results),
+        `./${resultsDir}/${date}/${browserName}Report.html`,
+        htmlReport,
+        "utf8"
+      );
+
+      // Write JSON results to file
+      fs.writeFileSync(
+        `./${resultsDir}/${date}/${browserName}Results.json`,
+        JSON.stringify(results, null, 2),
         "utf8"
       );
     } catch (error) {

@@ -45,3 +45,4 @@ Running tests for firefox...
 
 ## Reports
 Reports and screenshots are created and stored in `/test_results`
+Here I am exporting an HTML and JSON report for each browser.
