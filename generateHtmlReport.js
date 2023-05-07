@@ -11,11 +11,18 @@ module.exports = {
             padding: 40px 80px;
           }
           h1 {
-            color: #2E4057;
+            color: #1e1f1e;
 
           }
           h2 {
-            color: #2E4057;
+            color: #1e1f1e;
+          }
+          ul {
+            list-style-type: decimal;
+            padding-inline-start: 30px;
+          }
+          p {
+            color: #1e1f1e;
           }
           table {
             border-collapse: collapse;
@@ -37,7 +44,7 @@ module.exports = {
       <body>
         <h1>Test Results</h1>
         <tr>
-        <p><b>Browser:</b> ${browserName}</p>
+        <p><b>Browser:</b> ${browserName.charAt(0).toUpperCase() + browserName.slice(1)}</p>
         <p><b>Origin ZIP:</b> ${options.originZip}</p>
         <p><b>Destination ZIP:</b> ${options.destinationZip}</p>
         <p><b>Weight:</b> ${options.weight} lbs</p>
