@@ -4,7 +4,7 @@ module.exports = {
     <!DOCTYPE html>
     <html>
       <head>
-        <title>USPS Calculator Test Results</title>
+        <title>USPS Retail Postage Calculator</title>
         <style>
           body {
             font-family: Helvetica, Arial, sans-serif;
@@ -12,22 +12,26 @@ module.exports = {
           }
           h1 {
             color: #1e1f1e;
-
+            font-size: 24px;
           }
           h2 {
             color: #1e1f1e;
+            font-size: 18px;
           }
           ul {
             list-style-type: decimal;
-            padding-inline-start: 30px;
+            padding-inline-start: 18px;
           }
           p {
             color: #1e1f1e;
+            font-size: 14px;
           }
           table {
+            width: 80%;
             border-collapse: collapse;
             border: none;
             max-width: 600px;
+            font-size: 14px;
           }
           th {
             background-color: #2E4057;
@@ -42,20 +46,34 @@ module.exports = {
         </style>
       </head>
       <body>
-        <h1>Test Results</h1>
-        <tr>
-        <p><b>Browser:</b> ${browserName.charAt(0).toUpperCase() + browserName.slice(1)}</p>
-        <p><b>Origin ZIP:</b> ${options.originZip}</p>
-        <p><b>Destination ZIP:</b> ${options.destinationZip}</p>
-        <p><b>Weight:</b> ${options.weight} lbs</p>
+        <h1>USPS Retail Postage Calculator Test Results</h1>
+        <p>
+          <b>Date:</b> ${new Date().toLocaleString()}
+        </p>
+        <p>
+          <b>Browser:</b> ${browserName.charAt(0).toUpperCase() + browserName.slice(1)}
+        </p>
+        <p>
+          <b>Origin ZIP:</b> ${options.originZip}
+        </p>
+        <p>
+          <b>Destination ZIP:</b> ${options.destinationZip}
+        </p>
+        <p>
+          <b>Weight:</b> ${options.weight} lbs
+        </p>
         <h2>Box Sizes:</h2>
         <ul>
           ${options.boxSizes.map((box) => {
-            return `<li><b>${box.name}</b>: ${box.length} x ${box.width} x ${box.height}</li>`;
+            return `<li>
+                      <p>
+                        <b>${box.name}</b>: ${box.length} x ${box.width} x ${box.height}
+                      </p>
+                    </li>`;
           }).join("")}
         </ul>
         <br />
-        <table border="1" style="width:100%">
+        <table>
           <tr>
             <th>Box Size</th>
             <th>Shipping Price</th>

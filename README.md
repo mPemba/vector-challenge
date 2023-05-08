@@ -34,9 +34,11 @@ checkForPricesAndTest(ffDriver, priceOptions);
 
 ## How to Test
 
-Clone and Navigate to the directory in your terminal.
+Clone and Navigate to the directory in your terminal:<br>
+`git clone https://github.com/mPemba/vector-challenge.git`
+`cd vector-challenge`
 
-First run: `npm install`.
+Run: `npm install`.
 
 To invoke the script, run either `npm test` or `node index.js`.
 
