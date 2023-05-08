@@ -4,22 +4,33 @@ This project contains automated test cases for the [USPS Postage Calculator](htt
 
 ## Test Case
 
-A client would like to ship 25 lbs of devices equipment from Austin (ZIP code 78727) to San Francisco (ZIP code 94107)
+A client would like to ship 25 lbs of devices equipment from <b>Austin</b> (ZIP code 78727) to <b>San Francisco</b> (ZIP code 94107)
 
 There are 3 types of Home Depot Moving boxes that can be used for shipping:<br>
-Small - (16 in. L x 12 in. W x 12 in. D)<br>
-Medium -  (22 in. L x 16 in. W x 15 in. D)<br>
-Large - (28 in. L x 15 in. W x 16 in. D)
+<b>Small</b> - (16 in. L x 12 in. W x 12 in. D)<br>
+<b>Medium</b> -  (22 in. L x 16 in. W x 15 in. D)<br>
+<b>Large</b> - (28 in. L x 15 in. W x 16 in. D)
 
 Using USPS Retail Postage Calculator, please “Calculate price based on Shape and Size” for the “USPS Retail Ground, Retail price” for each box type.
 
-If the price is higher than $80 - the test should fail. If the price is less than $80 - the test passes.
+If the price is <i>higher</i> than $80 - the test should fail. If the price is <i>less</i> than $80 - the test passes.
 
 ## Prerequisites
 
 Must have Chrome and FireFox installed 
 
-Or comment out driver code in index.js if you don't want to install FF
+Or if you don't want to install Firefox, comment out this Builder code in `index.js`:
+
+```javascript
+const { Options: FirefoxOptions } = require("selenium-webdriver/firefox");
+
+const ffDriver = new Builder()
+  .forBrowser("firefox")
+  .setFirefoxOptions(new FirefoxOptions().setPageLoadStrategy("normal"))
+  .build();
+
+checkForPricesAndTest(ffDriver, priceOptions);
+```
 
 ## How to Test
 
@@ -44,4 +55,6 @@ Running tests for firefox...
 ```
 
 ## Reports
-Reports and screenshots are created and stored in `/test_results`
+Reports and screenshots are created and stored in `/test_results` where I am exporting an HTML and JSON report for each browser.
+
+Copying the path of the .html file and navigating to that route in the browser will display the report. 
