@@ -2,6 +2,7 @@ const { By, until } = require("selenium-webdriver");
 const fs = require("fs");
 const { COLORS } = require("./util");
 const { generateHtmlReport } = require("./generateHtmlReport");
+
 const resultsDir = "test_results";
 
 module.exports = {
@@ -26,10 +27,10 @@ module.exports = {
       // Create results and screenshots directory
       fs.mkdirSync(`./${resultsDir}/${date}/screenshots`, { recursive: true });
 
-      // Navigate to the USPS calculator
+      // Navigate to the USPS Retail Postage Calculator
       await driver.get("https://postcalc.usps.com/");
 
-      // Enter the origin and destination ZIP
+      // Enter the origin and destination ZIP codes
       await driver.findElement(By.id("Origin")).sendKeys(options.originZip);
       await driver
         .findElement(By.id("Destination"))
@@ -46,7 +47,7 @@ module.exports = {
       // Loop through each box size and test
       for (const boxSize of options.boxSizes) {
 
-        //clear inputs
+        // Clear inputs each time
         await driver.findElement(By.id("Length")).clear();
         await driver.findElement(By.id("Width")).clear();
         await driver.findElement(By.id("Height")).clear();
@@ -65,12 +66,10 @@ module.exports = {
           10000
         );
 
-
         // Search through rows for a header that matches "USPS Retail Ground"
         // and store the Normal delivery time Retail prices
         let list = await driver.findElement(By.css("#mail-services-sm-lg"));
         let rows = await list.findElements(By.css(".row"));
-
         let retailGroundPrice;
 
         for (let row of rows) {
@@ -101,13 +100,15 @@ module.exports = {
           boxSize: boxSize.name,
         });
 
-        // Take screenshot and write to screenshots dir
-        const screenshot = await driver.takeScreenshot();
-        fs.writeFileSync(
-          `./${resultsDir}/${date}/screenshots/${browserName} - ${boxSize.name}.png`,
-          screenshot,
-          "base64"
-        );
+        // If the test failed, take a screenshot and write to directory
+        if (!success) {
+          const screenshot = await driver.takeScreenshot();
+          fs.writeFileSync(
+            `./${resultsDir}/${date}/screenshots/${browserName} - ${boxSize.name}.png`,
+            screenshot,
+            "base64"
+          );
+        }
 
         // Navigate back and go again
         await driver.navigate().back();
@@ -116,7 +117,6 @@ module.exports = {
       // Log each result and write to file
       results.forEach((r) => {
         const message = `${browserName} - ${r.boxSize} box - Shipping cost: ${r.shippingPrice}`;
-
         console.log(
           r.success ? COLORS.GREEN : COLORS.RED,
           r.result,
@@ -125,10 +125,9 @@ module.exports = {
         );
       });
 
-      // Generate HTML report
+      // Generate HTML report and write to file
       const htmlReport = await generateHtmlReport(results, browserName, options);
 
-      // Write HTML report to file
       fs.writeFileSync(
         `./${resultsDir}/${date}/${browserName}Report.html`,
         htmlReport,
@@ -141,6 +140,7 @@ module.exports = {
         JSON.stringify(results, null, 2),
         "utf8"
       );
+
     } catch (error) {
       console.error(error);
     } finally {
